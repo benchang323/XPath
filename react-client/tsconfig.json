@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    // "jsx": "react-native",
+    "jsx": "react-jsx", // Enable JSX support
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
+    // Jest React Test
+    "types": ["jest", "node", "react", "react-native"],
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "esbuild": {
+    "loader": {
+      ".js": "jsx"
+    }
+  },
+  "loader": 
+    { ".js": "jsx" },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
