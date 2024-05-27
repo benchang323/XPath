@@ -1,0 +1,37 @@
+# version: "3"
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql_database
+    ports:
+      - "25060:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: oose_project_db
+      MYSQL_USER: oose
+      MYSQL_PASSWORD: oose
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: '/usr/bin/mysql --user=root --password=root --execute "SHOW DATABASES;"'
+      interval: 2s
+      timeout: 20s
+      retries: 10
+  frontend:
+    build: ./react-client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - REACT_APP_API_BASE_URL=http://backend:8000
+  backend:
+    build: ./django_server
+    command: sh -c "yes | python manage.py makemigrations && python manage.py migrate --fake-initial && python manage.py runserver 0.0.0.0:8000 "
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  db_data:
